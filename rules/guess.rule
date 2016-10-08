@@ -2,4 +2,4 @@ TopRule = $* (
 	$command {what='guess'}
 ) $*;
 
-command = (guess);
+command = (guess | (what is | (this | it)) | (what\'s));
