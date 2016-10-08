@@ -182,16 +182,16 @@
             "id": "f01c43bf2ec2413d8f06a434838f2251",
             "name": "Eye Texture",
             "type": "Eye Texture",
-            "visible": false,
-            "locked": true,
+            "visible": true,
+            "locked": false,
             "keyframes": []
         },
         {
             "id": "55150b88a33443debdad7805a2e2189c",
             "name": "Body",
             "type": "Body",
-            "visible": false,
-            "locked": true,
+            "visible": true,
+            "locked": false,
             "keyframes": [
                 {
                     "value": {
