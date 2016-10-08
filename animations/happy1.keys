@@ -1,7 +1,7 @@
 {
     "version": "0.6.0",
     "framerate": 30,
-    "duration": 60,
+    "duration": 90,
     "scale": 1,
     "layers": [
         {
@@ -51,7 +51,7 @@
                             "value": "sineInOut"
                         }
                     },
-                    "time": 57
+                    "time": 89
                 }
             ]
         }
