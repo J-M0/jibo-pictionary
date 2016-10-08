@@ -3,8 +3,9 @@ from flask import request
 app = Flask(__name__)
 
 import cv2
-import numpy as np
-from matplotlib import pyplot as plt
+import sys
+import tensorflow as tf
+import json
 
 @app.route('/', methods=['GET'])
 def hello_world():
@@ -36,7 +37,29 @@ def post_img():
 
     cv2.imwrite('cropped.jpg', roi)
 
-    return 'image cropped within %i,%i %i,%i\n' % (x1,y1, x2,y1)
+    image_data = tf.gfile.FastGFile('cropped.jpg', 'rb').read()
+
+    label_lines = [line.rstrip() for line in tf.gfile.GFile("/TF_M_FILES/retrained_labels.txt")]
+
+    result = {}
+    with tf.gfile.FastGFile("/TF_M_FILES/retrained_graph.pb", 'rb') as f:
+        graph_def = tf.GraphDef()
+        graph_def.ParseFromString(f.read())
+        _ = tf.import_graph_def(graph_def, name='')
+
+    with tf.Session() as sess:
+        softmax_tensor = sess.graph.get_tensor_by_name('final_result:0')
+
+        predictions = sess.run(softmax_tensor, {'DecodeJpeg/contents:0': image_data})
+
+        top_k = predictions[0].argsort()[-len(predictions[0]):][::-1]
+
+        for node_id in top_k:
+            human_string = label_lines[node_id]
+            score = predictions[0][node_id]
+            result[human_string] = score
+
+    return json.dumps(result) + "\n"
 
 if __name__ == '__main__':
     app.run(debug=True,host='0.0.0.0')
