@@ -2,7 +2,9 @@
 logs
 *.log
 npm-debug.log*
-
+tensorflow/bottlenecks
+tensorflow/data
+tensorflow/TestData
 # Runtime data
 pids
 *.pid
