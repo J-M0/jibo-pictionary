@@ -28,36 +28,43 @@ def post_img():
     epsilon = 0.1*cv2.arcLength(cnt,True)
     approx = cv2.approxPolyDP(cnt,epsilon,True)
 
-    x1 = approx[0][0][0]
-    y1 = approx[0][0][1]
-    x2 = approx[2][0][0]
-    y2 = approx[2][0][1]
-
-    roi = t[min(y1,y2):max(y1,y2), min(x1,x2):max(x1,x2)]
-
-    cv2.imwrite('cropped.jpg', roi)
-
-    image_data = tf.gfile.FastGFile('cropped.jpg', 'rb').read()
-
-    label_lines = [line.rstrip() for line in tf.gfile.GFile("/TF_M_FILES/retrained_labels.txt")]
-
     result = {}
-    with tf.gfile.FastGFile("/TF_M_FILES/retrained_graph.pb", 'rb') as f:
-        graph_def = tf.GraphDef()
-        graph_def.ParseFromString(f.read())
-        _ = tf.import_graph_def(graph_def, name='')
 
-    with tf.Session() as sess:
-        softmax_tensor = sess.graph.get_tensor_by_name('final_result:0')
+    try:
+        x1 = approx[0][0][0]
+        y1 = approx[0][0][1]
+        x2 = approx[2][0][0]
+        y2 = approx[2][0][1]
 
-        predictions = sess.run(softmax_tensor, {'DecodeJpeg/contents:0': image_data})
+        roi = t[min(y1,y2):max(y1,y2), min(x1,x2):max(x1,x2)]
 
-        top_k = predictions[0].argsort()[-len(predictions[0]):][::-1]
+        cv2.imwrite('cropped.jpg', roi)
 
-        for node_id in top_k:
-            human_string = label_lines[node_id]
-            score = predictions[0][node_id]
-            result[human_string] = score
+        image_data = tf.gfile.FastGFile('cropped.jpg', 'rb').read()
+
+        label_lines = [line.rstrip() for line in tf.gfile.GFile("/tf_files/retrained_labels.txt")]
+
+        with tf.gfile.FastGFile("/tf_files/retrained_graph.pb", 'rb') as f:
+            graph_def = tf.GraphDef()
+            graph_def.ParseFromString(f.read())
+            _ = tf.import_graph_def(graph_def, name='')
+
+        with tf.Session() as sess:
+            softmax_tensor = sess.graph.get_tensor_by_name('final_result:0')
+
+            predictions = sess.run(softmax_tensor, {'DecodeJpeg/contents:0': image_data})
+
+            top_k = predictions[0].argsort()[-len(predictions[0]):][::-1]
+            best_guess = top_k[0]
+
+            human_string = label_lines[best_guess]
+            score = predictions[0][best_guess]
+            result['error'] = False
+            result['name'] = human_string
+            result['confidence'] = "%0.5f" % score
+
+    except Exception:
+        result = {"error" : True}
 
     return json.dumps(result) + "\n"
 
