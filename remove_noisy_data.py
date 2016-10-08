@@ -25,6 +25,6 @@ for directory in dir:
 
 
 
-file = open("sunglasses/165.jpg")
-l=file.readlines()
-if(re.match('html', l[0], re.IGNORECASE)):
+# file = open("sunglasses/165.jpg")
+# l=file.readlines()
+# if(re.match('html', l[0], re.IGNORECASE)):
