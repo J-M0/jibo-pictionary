@@ -13,29 +13,26 @@ def hello_world():
 
 @app.route('/', methods=['POST'])
 def post_img():
-    # data = request.files['media']
-    # data.save('img.jpg')
-
-    f = open('img.jpg', 'wb')
-    f.write(request.get_data())
-    f.close()
-
-    img = cv2.imread('img.jpg')
-    app.logger.warning(img.shape)
-    res = cv2.resize(img, None, fx=0.2, fy=0.2, interpolation=cv2.INTER_CUBIC)
-    gray = cv2.cvtColor(res, cv2.COLOR_BGR2GRAY)
-    (thresh, im_bw) = cv2.threshold(gray, 128, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
-
-    contours, hierarchy = cv2.findContours(im_bw.copy(), cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-
-    t = res.copy()
-    cnt = contours[2]
-    epsilon = 0.1*cv2.arcLength(cnt,True)
-    approx = cv2.approxPolyDP(cnt,epsilon,True)
-
-    result = {}
-
     try:
+        f = open('img.jpg', 'wb')
+        f.write(request.get_data())
+        f.close()
+
+        img = cv2.imread('img.jpg')
+        app.logger.warning(img.shape)
+        res = cv2.resize(img, None, fx=0.2, fy=0.2, interpolation=cv2.INTER_CUBIC)
+        gray = cv2.cvtColor(res, cv2.COLOR_BGR2GRAY)
+        (thresh, im_bw) = cv2.threshold(gray, 128, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
+
+        contours, hierarchy = cv2.findContours(im_bw.copy(), cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+
+        t = res.copy()
+        cnt = contours[2]
+        epsilon = 0.1*cv2.arcLength(cnt,True)
+        approx = cv2.approxPolyDP(cnt,epsilon,True)
+
+        result = {}
+
         x1 = approx[0][0][0]
         y1 = approx[0][0][1]
         x2 = approx[2][0][0]
