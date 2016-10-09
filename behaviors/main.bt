@@ -5,9 +5,11 @@
         "name": "",
         "asset-pack": "core",
         "children": [
+            "0db6bdeb-8433-4f80-bfc9-b37a423ad15a",
             "b9221ef2-3a45-4a0b-bd35-43cb7e303ddb",
             "488a05f4-4420-45ba-9299-5e1242d2dedb",
-            "634b3543-118b-4ae5-b307-e74b7202a72c"
+            "634b3543-118b-4ae5-b307-e74b7202a72c",
+            "2e8620ed-9e5e-4e5f-bc98-6f26e2c135bb"
         ],
         "decorators": [],
         "options": {}
@@ -58,7 +60,10 @@
         },
         "asset-pack": "core",
         "parent": 1,
-        "skipped": false
+        "skipped": false,
+        "decorators": [
+            "8d39a585-1fc7-4e88-a51f-51b6a6e25cd8"
+        ]
     },
     "488a05f4-4420-45ba-9299-5e1242d2dedb": {
         "id": "488a05f4-4420-45ba-9299-5e1242d2dedb",
@@ -82,7 +87,7 @@
     "634b3543-118b-4ae5-b307-e74b7202a72c": {
         "id": "634b3543-118b-4ae5-b307-e74b7202a72c",
         "class": "Listen",
-        "name": "",
+        "name": "listen for yes/no",
         "options": {
             "getOptions": [
                 "() => {",
@@ -99,13 +104,155 @@
             "onResult": [
                 "(listener) => {",
                 "    listener.on('cloud', function(asrResult, speakerIds) {",
-                "",
+                "      notepad.NLresult = asrResult.NLParse.word;",
                 "    });",
                 "}"
             ]
         },
         "asset-pack": "core",
         "parent": 1,
-        "skipped": true
+        "skipped": false
+    },
+    "2e8620ed-9e5e-4e5f-bc98-6f26e2c135bb": {
+        "id": "2e8620ed-9e5e-4e5f-bc98-6f26e2c135bb",
+        "class": "Switch",
+        "name": "",
+        "options": {},
+        "asset-pack": "core",
+        "parent": 1,
+        "children": [
+            "385593be-cbe7-48da-a80d-f31b09d10693",
+            "d225bdf5-3fe8-4dc6-8a61-178dd46c2c5e"
+        ],
+        "skipped": false
+    },
+    "385593be-cbe7-48da-a80d-f31b09d10693": {
+        "id": "385593be-cbe7-48da-a80d-f31b09d10693",
+        "class": "Subtree",
+        "name": "be happy",
+        "options": {
+            "behaviorPath": "beHappy.bt",
+            "getNotepad": [
+                "() => {",
+                "    return {};",
+                "}"
+            ],
+            "onResult": [
+                "(treeResult) => {",
+                "}"
+            ]
+        },
+        "asset-pack": "core",
+        "parent": "2e8620ed-9e5e-4e5f-bc98-6f26e2c135bb",
+        "decorators": [
+            "91a7d545-e4ea-40c7-8147-3907b467f80a"
+        ]
+    },
+    "d225bdf5-3fe8-4dc6-8a61-178dd46c2c5e": {
+        "id": "d225bdf5-3fe8-4dc6-8a61-178dd46c2c5e",
+        "class": "Subtree",
+        "name": "be upset",
+        "options": {
+            "behaviorPath": "beUpset.bt",
+            "getNotepad": [
+                "() => {",
+                "    return {};",
+                "}"
+            ],
+            "onResult": [
+                "(treeResult) => {",
+                "}"
+            ]
+        },
+        "asset-pack": "core",
+        "parent": "2e8620ed-9e5e-4e5f-bc98-6f26e2c135bb",
+        "decorators": [
+            "5ae15a32-4db3-4739-9330-cc87a5851e34"
+        ]
+    },
+    "91a7d545-e4ea-40c7-8147-3907b467f80a": {
+        "id": "91a7d545-e4ea-40c7-8147-3907b467f80a",
+        "class": "Case",
+        "name": "",
+        "options": {
+            "conditional": [
+                "() => {",
+                "  return notepad.NLresult == 'yes';",
+                "}"
+            ]
+        },
+        "asset-pack": "core"
+    },
+    "5ae15a32-4db3-4739-9330-cc87a5851e34": {
+        "id": "5ae15a32-4db3-4739-9330-cc87a5851e34",
+        "class": "Case",
+        "name": "",
+        "options": {
+            "conditional": [
+                "() => {",
+                "  return notepad.NLresult == 'no';",
+                "}"
+            ]
+        },
+        "asset-pack": "core"
+    },
+    "0db6bdeb-8433-4f80-bfc9-b37a423ad15a": {
+        "id": "0db6bdeb-8433-4f80-bfc9-b37a423ad15a",
+        "class": "Listen",
+        "name": "",
+        "options": {
+            "getOptions": [
+                "() => {",
+                "    let options = {",
+                "        heyJibo: false,",
+                "        detectEnd: false,",
+                "        incremental: false,",
+                "        authenticateSpeaker: ''",
+                "    }",
+                "    return options;",
+                "}"
+            ],
+            "rule": "guess.rule",
+            "onResult": [
+                "(listener) => {",
+                "    listener.on('cloud', function(asrResult, speakerIds) {",
+                "      if(asrResult.NLParse.what == 'guess'){",
+                "        notepad.whatNext = asrResult.NLParse.what;",
+                "      } else {",
+                "        notepad.whatNext = 'nothing';",
+                "      }",
+                "    });",
+                "}"
+            ]
+        },
+        "asset-pack": "core",
+        "parent": 1
+    },
+    "8d39a585-1fc7-4e88-a51f-51b6a6e25cd8": {
+        "id": "8d39a585-1fc7-4e88-a51f-51b6a6e25cd8",
+        "class": "SucceedOnListen",
+        "name": "",
+        "options": {
+            "getOptions": [
+                "() => {",
+                "    let options = {",
+                "        heyJibo: false,",
+                "        detectEnd: false,",
+                "        incremental: false,",
+                "        authenticateSpeaker: ''",
+                "    }",
+                "    return options;",
+                "}"
+            ],
+            "rule": "null",
+            "onResult": [
+                "(listener) => {",
+                "    listener.on('cloud', function(asrResult, speakerIds) {",
+                "",
+                "    });",
+                "}"
+            ]
+        },
+        "asset-pack": "core"
     }
 }
