@@ -29,12 +29,14 @@
                 "      lps.takePhoto(lps.PhotoRes.LARGE, false, lps.RIGHT, lps.PhotoType.FULL, function(error, imageUrl) {",
                 "        request",
                 "          .get(imageUrl, function(err){",
-                "            // console.log('Get: ' + err);",
+                "            //console.log('Get: ' + err);",
                 "          })",
                 "          .pipe(request.post('http://72.19.101.34:5000', function(err, response, body){",
-                "            // console.log('Post: ' + err);",
-                "            // console.log(response);",
-                "            // console.log(body);",
+                "            if (error !== undefined) {",
+                "              console.log(\"post error\");",
+                "              notepad.guesses = [{name:'unicorn', confidence: 0.9}, {name:'house', confidence: 0.1}];",
+                "              succeed();",
+                "            }",
                 "          })",
                 "          .on('response', function(response){",
                 "            console.log('Status code: ' + response.statusCode);",
@@ -67,8 +69,13 @@
         "options": {
             "getWords": [
                 "(callback) => {",
-                "    var guess = notepad.guesses.pop();",
-                "    callback('It\\'s a ' + guess.name);",
+                "    if (notepad.guesses.length == 0) {",
+                "      callback(\"Well you're a bad artist.\");",
+                "    }",
+                "    else {",
+                "      var guess = notepad.guesses.shift();",
+                "      callback('It\\'s a ' + guess.name);",
+                "    }",
                 "}"
             ],
             "onWord": [
@@ -217,7 +224,7 @@
                 "    listener.on('cloud', function(asrResult, speakerIds) {",
                 "      console.log('Heard something');",
                 "      if(asrResult.NLParse.what == 'guess'){",
-                "        notepad.whatNext = asrResult.NLParse.what;",
+                "        notepad.whatNext = 'guess';",
                 "        console.log('Guess heard');",
                 "      } else {",
                 "        notepad.whatNext = 'nothing';",
@@ -227,7 +234,7 @@
             ]
         },
         "asset-pack": "core",
-        "parent": "307645b8-ae94-42df-9317-b34880ae5dff"
+        "parent": "c723768c-11e0-4ac3-8179-dd0ca3bab241"
     },
     "e98b05d7-2179-4afd-b7bb-28110a1482ec": {
         "id": "e98b05d7-2179-4afd-b7bb-28110a1482ec",
@@ -251,7 +258,7 @@
         "asset-pack": "core",
         "parent": 1,
         "children": [
-            "0db6bdeb-8433-4f80-bfc9-b37a423ad15a",
+            "c723768c-11e0-4ac3-8179-dd0ca3bab241",
             "b9221ef2-3a45-4a0b-bd35-43cb7e303ddb",
             "322cd72b-bf39-4bd5-8004-5db9d35c5e98",
             "23382d3e-c7c6-4a33-b5d6-e317ce428fbd"
@@ -343,7 +350,8 @@
                 "}"
             ]
         },
-        "asset-pack": "core"
+        "asset-pack": "core",
+        "skipped": true
     },
     "4b24fa42-9bcd-4182-af53-adf9e5c88675": {
         "id": "4b24fa42-9bcd-4182-af53-adf9e5c88675",
@@ -358,5 +366,36 @@
         },
         "asset-pack": "core",
         "parent": 1
+    },
+    "c723768c-11e0-4ac3-8179-dd0ca3bab241": {
+        "id": "c723768c-11e0-4ac3-8179-dd0ca3bab241",
+        "class": "Sequence",
+        "name": "",
+        "options": {},
+        "asset-pack": "core",
+        "parent": "307645b8-ae94-42df-9317-b34880ae5dff",
+        "children": [
+            "0db6bdeb-8433-4f80-bfc9-b37a423ad15a"
+        ],
+        "decorators": [
+            "3fa32fa1-76b8-4e9c-951c-bfcff68f8e9e"
+        ]
+    },
+    "3fa32fa1-76b8-4e9c-951c-bfcff68f8e9e": {
+        "id": "3fa32fa1-76b8-4e9c-951c-bfcff68f8e9e",
+        "class": "WhileCondition",
+        "name": "",
+        "options": {
+            "init": [
+                "() => {",
+                "}"
+            ],
+            "conditional": [
+                "() => {",
+                "    return notepad.whatNext != 'guess';",
+                "}"
+            ]
+        },
+        "asset-pack": "core"
     }
 }
