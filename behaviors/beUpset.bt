@@ -1,9 +1,12 @@
 {
     "1": {
         "id": 1,
-        "class": "Sequence",
+        "class": "Parallel",
         "name": "",
-        "options": {},
+        "options": {
+            "succeedOnOne": false
+        },
+        "asset-pack": "core",
         "children": [
             "4426ffcb-f91a-4525-a67b-e06b1344fb64",
             "8854618d-dae1-44be-9919-b4dcf9e91cac"
