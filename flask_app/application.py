@@ -42,14 +42,22 @@ def post_img():
             top_k = predictions[0].argsort()[-len(predictions[0]):][::-1]
             best_guess = top_k[0]
 
-            human_string = label_lines[best_guess]
-            score = predictions[0][best_guess]
+            guesses = []
             result['error'] = False
-            result['name'] = human_string
-            result['confidence'] = "%0.5f" % score
+            result['guesses'] = []
+            for node_id in top_k:
+                human_string = label_lines[node_id]
+                score = predictions[0][node_id]
+                result['guesses'].append({
+                    'name': human_string,
+                    'confidence': "%0.5f" % score
+                })
 
     except Exception as e:
-        result = {"error" : True}
+        result = {
+            "error" : True,
+            "guesses" : []
+        }
         app.logger.warning(e)
 
     return json.dumps(result) + "\n"
@@ -63,7 +71,13 @@ def store_img():
     f = open(filename, 'wb')
     f.write(request.get_data())
     f.close()
-    return "saved as " + filename + "\n"
+
+    result = {
+        'error': False,
+        'name': filename,
+        'confidence': ""
+    }
+    return json.dumps(result) + "\n"
 
 if __name__ == '__main__':
     app.run(debug=True,host='0.0.0.0')
