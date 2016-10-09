@@ -1,41 +1,49 @@
 {
-  "1": {
-    "id": 1,
-    "class": "Sequence",
-    "name": "",
-    "asset-pack": "core",
-    "children": [
-      4,
-      6
-    ],
-    "decorators": [],
-    "options": {}
-  },
-  "4": {
-    "id": 4,
-    "class": "PlayAnimation",
-    "name": "Play a greeting",
-    "asset-pack": "core",
-    "parent": 1,
-    "options": {
-      "animPath": "greeting.keys",
-      "config": [
-        "(animation) => {",
-        "}"
-      ]
+    "1": {
+        "id": 1,
+        "class": "Sequence",
+        "name": "",
+        "asset-pack": "core",
+        "children": [
+            "b9221ef2-3a45-4a0b-bd35-43cb7e303ddb"
+        ],
+        "decorators": [],
+        "options": {}
+    },
+    "meta": {
+        "version": 1
+    },
+    "b9221ef2-3a45-4a0b-bd35-43cb7e303ddb": {
+        "id": "b9221ef2-3a45-4a0b-bd35-43cb7e303ddb",
+        "class": "ExecuteScriptAsync",
+        "name": "",
+        "options": {
+            "exec": [
+                "(succeed, fail) => {",
+                "    let request = require('request');",
+                "    ",
+                "    let lps = jibo.lps",
+                "    lps.takePhoto(lps.PhotoRes.SMALL, false, lps.RIGHT, lps.PhotoType.DEBUG, function(error, imageUrl) {",
+                "      request",
+                "        .get(imageUrl)",
+                "        .pipe(request.post('http://72.19.101.34:5000')",
+                "        .on('response', function(response){",
+                "          console.log('Status code: ' + response.statusCode);",
+                "        })",
+                "        .on('data', function(data) {",
+                "          console.log(data.toString());",
+                "          notepad.imageError = data['error'];",
+                "          if(!data.error) {",
+                "            notepad.objectName = data.name;",
+                "            notepad.confidence = data.confidence;",
+                "          }",
+                "            succeed();",
+                "        }))",
+                "    });",
+                "}"
+            ]
+        },
+        "asset-pack": "core",
+        "parent": 1
     }
-  },
-  "6": {
-    "id": 6,
-    "class": "PlayAudio",
-    "name": "Bawhoop",
-    "asset-pack": "core",
-    "parent": 1,
-    "options": {
-      "audioPath": "FX_Bawhoop.mp3"
-    }
-  },
-  "meta": {
-    "version": 1
-  }
 }
