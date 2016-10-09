@@ -1,0 +1,3 @@
+TopRule = $* (
+	$factory:yes_no {word = yes_no._nl}
+) $*;
