@@ -6,7 +6,8 @@
         "asset-pack": "core",
         "children": [
             "e98b05d7-2179-4afd-b7bb-28110a1482ec",
-            "307645b8-ae94-42df-9317-b34880ae5dff"
+            "307645b8-ae94-42df-9317-b34880ae5dff",
+            "4b24fa42-9bcd-4182-af53-adf9e5c88675"
         ],
         "decorators": [],
         "options": {}
@@ -17,7 +18,7 @@
     "b9221ef2-3a45-4a0b-bd35-43cb7e303ddb": {
         "id": "b9221ef2-3a45-4a0b-bd35-43cb7e303ddb",
         "class": "ExecuteScriptAsync",
-        "name": "",
+        "name": "take picture and get guesses from server",
         "options": {
             "exec": [
                 "(succeed, fail) => {",
@@ -62,7 +63,7 @@
     "488a05f4-4420-45ba-9299-5e1242d2dedb": {
         "id": "488a05f4-4420-45ba-9299-5e1242d2dedb",
         "class": "TextToSpeechJs",
-        "name": "",
+        "name": "say guess",
         "options": {
             "getWords": [
                 "(callback) => {",
@@ -196,7 +197,7 @@
     "0db6bdeb-8433-4f80-bfc9-b37a423ad15a": {
         "id": "0db6bdeb-8433-4f80-bfc9-b37a423ad15a",
         "class": "Listen",
-        "name": "",
+        "name": "listen for \"guess\"",
         "options": {
             "getOptions": [
                 "() => {",
@@ -212,9 +213,12 @@
             "rule": "guess.rule",
             "onResult": [
                 "(listener) => {",
+                "  console.log('Blah');",
                 "    listener.on('cloud', function(asrResult, speakerIds) {",
+                "      console.log('Heard something');",
                 "      if(asrResult.NLParse.what == 'guess'){",
                 "        notepad.whatNext = asrResult.NLParse.what;",
+                "        console.log('Guess heard');",
                 "      } else {",
                 "        notepad.whatNext = 'nothing';",
                 "      }",
@@ -263,7 +267,6 @@
         "options": {
             "init": [
                 "() => {",
-                "  return true;",
                 "}"
             ],
             "conditional": [
@@ -277,7 +280,7 @@
     "322cd72b-bf39-4bd5-8004-5db9d35c5e98": {
         "id": "322cd72b-bf39-4bd5-8004-5db9d35c5e98",
         "class": "Sequence",
-        "name": "",
+        "name": "guessing loop",
         "options": {},
         "asset-pack": "core",
         "parent": "307645b8-ae94-42df-9317-b34880ae5dff",
@@ -311,7 +314,7 @@
     "23382d3e-c7c6-4a33-b5d6-e317ce428fbd": {
         "id": "23382d3e-c7c6-4a33-b5d6-e317ce428fbd",
         "class": "TextToSpeechJs",
-        "name": "",
+        "name": "insult artist",
         "options": {
             "getWords": [
                 "(callback) => {",
@@ -341,5 +344,19 @@
             ]
         },
         "asset-pack": "core"
+    },
+    "4b24fa42-9bcd-4182-af53-adf9e5c88675": {
+        "id": "4b24fa42-9bcd-4182-af53-adf9e5c88675",
+        "class": "ExecuteScript",
+        "name": "",
+        "options": {
+            "exec": [
+                "() => {",
+                "  console.log(\"This should not be reached\");",
+                "}"
+            ]
+        },
+        "asset-pack": "core",
+        "parent": 1
     }
 }
