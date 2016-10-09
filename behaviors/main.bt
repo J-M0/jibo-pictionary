@@ -312,6 +312,7 @@
             ],
             "conditional": [
                 "() => {",
+                "    console.log(notepad.correct);",
                 "    return notepad.guesses.length != 0 && !notepad.correct;",
                 "}"
             ]
@@ -325,7 +326,12 @@
         "options": {
             "getWords": [
                 "(callback) => {",
+                "  if (!notepad.correct) {",
                 "    callback('Well maybe you should learn to draw better');",
+                "  }",
+                "  else {",
+                "    callback(\"Let's play again\");",
+                "  }",
                 "}"
             ],
             "onWord": [
@@ -335,23 +341,7 @@
         },
         "asset-pack": "core",
         "parent": "307645b8-ae94-42df-9317-b34880ae5dff",
-        "decorators": [
-            "b8e2f87a-9559-4497-8b39-8cac899ba18a"
-        ]
-    },
-    "b8e2f87a-9559-4497-8b39-8cac899ba18a": {
-        "id": "b8e2f87a-9559-4497-8b39-8cac899ba18a",
-        "class": "Case",
-        "name": "",
-        "options": {
-            "conditional": [
-                "() => {",
-                "  return !notepad.correct;",
-                "}"
-            ]
-        },
-        "asset-pack": "core",
-        "skipped": true
+        "decorators": []
     },
     "4b24fa42-9bcd-4182-af53-adf9e5c88675": {
         "id": "4b24fa42-9bcd-4182-af53-adf9e5c88675",
