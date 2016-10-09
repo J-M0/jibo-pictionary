@@ -2,6 +2,8 @@ from flask import Flask
 from flask import request
 app = Flask(__name__)
 
+import os
+import uuid
 import cv2
 import sys
 import tensorflow as tf
@@ -51,6 +53,17 @@ def post_img():
         app.logger.warning(e)
 
     return json.dumps(result) + "\n"
+
+@app.route('/store', methods=['POST'])
+def store_img():
+    if not os.path.exists('saved'):
+        os.mkdir('saved')
+
+    filename = 'saved/' + str(uuid.uuid4()) + ".jpg"
+    f = open(filename, 'wb')
+    f.write(request.get_data())
+    f.close()
+    return "saved as " + filename + "\n"
 
 if __name__ == '__main__':
     app.run(debug=True,host='0.0.0.0')
