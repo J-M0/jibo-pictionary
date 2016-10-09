@@ -1,0 +1,67 @@
+{
+    "1": {
+        "id": 1,
+        "class": "Sequence",
+        "name": "",
+        "options": {},
+        "children": [
+            "b251979c-39cd-4812-afeb-c8f24b99f664",
+            "e6be3c90-99cd-459a-ac9e-ff1c555ac4bd"
+        ]
+    },
+    "meta": {
+        "version": 1
+    },
+    "e6be3c90-99cd-459a-ac9e-ff1c555ac4bd": {
+        "id": "e6be3c90-99cd-459a-ac9e-ff1c555ac4bd",
+        "class": "ExecuteScript",
+        "name": "",
+        "options": {
+            "exec": [
+                "() => {",
+                "  let request = require('request');",
+                "  ",
+                "  let lps = jibo.lps",
+                "  lps.takePhoto(lps.PhotoRes.SMALL, false, lps.RIGHT, lps.PhotoType.DEBUG, function(error, imageUrl) {",
+                "    request.get(imageUrl).on('response', function(response) {",
+                "      console.log(response.statusCode);",
+                "      console.log(response.headers['content-type']);",
+                "    }).pipe(request.post('http://httpbin.org/post').on('response', function(res){",
+                "      console.log(res);",
+                "    }));",
+                "  });",
+                "}"
+            ]
+        },
+        "asset-pack": "core",
+        "parent": 1
+    },
+    "b251979c-39cd-4812-afeb-c8f24b99f664": {
+        "id": "b251979c-39cd-4812-afeb-c8f24b99f664",
+        "class": "Listen",
+        "name": "",
+        "options": {
+            "getOptions": [
+                "() => {",
+                "    let options = {",
+                "        heyJibo: false,",
+                "        detectEnd: false,",
+                "        incremental: false,",
+                "        authenticateSpeaker: ''",
+                "    }",
+                "    return options;",
+                "}"
+            ],
+            "rule": "null",
+            "onResult": [
+                "(listener) => {",
+                "    listener.on('cloud', function(asrResult, speakerIds) {",
+                "",
+                "    });",
+                "}"
+            ]
+        },
+        "asset-pack": "core",
+        "parent": 1
+    }
+}
