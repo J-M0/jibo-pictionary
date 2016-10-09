@@ -1,0 +1,41 @@
+{
+    "1": {
+        "id": 1,
+        "class": "Sequence",
+        "name": "",
+        "options": {},
+        "children": [
+            "4426ffcb-f91a-4525-a67b-e06b1344fb64",
+            "8854618d-dae1-44be-9919-b4dcf9e91cac"
+        ]
+    },
+    "meta": {
+        "version": 1
+    },
+    "4426ffcb-f91a-4525-a67b-e06b1344fb64": {
+        "id": "4426ffcb-f91a-4525-a67b-e06b1344fb64",
+        "class": "PlayAudio",
+        "name": "",
+        "options": {
+            "audioPath": "FX_Disgusted_01.mp3"
+        },
+        "asset-pack": "core",
+        "parent": 1,
+        "skipped": false
+    },
+    "8854618d-dae1-44be-9919-b4dcf9e91cac": {
+        "id": "8854618d-dae1-44be-9919-b4dcf9e91cac",
+        "class": "PlayAnimation",
+        "name": "",
+        "options": {
+            "animPath": "upset.keys",
+            "config": [
+                "(animation) => {",
+                "}"
+            ]
+        },
+        "asset-pack": "core",
+        "parent": 1,
+        "decorators": []
+    }
+}

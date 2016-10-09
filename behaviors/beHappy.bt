@@ -1,0 +1,45 @@
+{
+    "1": {
+        "id": 1,
+        "class": "Parallel",
+        "name": "",
+        "options": {
+            "succeedOnOne": false
+        },
+        "asset-pack": "core",
+        "children": [
+            "5e57f930-ca38-4f2c-a264-8b127fedf58c",
+            "f1780d3b-8088-4ef4-b690-0e6ab3bf6715"
+        ]
+    },
+    "meta": {
+        "version": 1
+    },
+    "5e57f930-ca38-4f2c-a264-8b127fedf58c": {
+        "id": "5e57f930-ca38-4f2c-a264-8b127fedf58c",
+        "class": "PlayAudio",
+        "name": "",
+        "options": {
+            "audioPath": "FX_GoodJob_01.mp3"
+        },
+        "asset-pack": "core",
+        "parent": 1,
+        "skipped": false,
+        "children": []
+    },
+    "f1780d3b-8088-4ef4-b690-0e6ab3bf6715": {
+        "id": "f1780d3b-8088-4ef4-b690-0e6ab3bf6715",
+        "class": "PlayAnimation",
+        "name": "",
+        "options": {
+            "animPath": "happy1.keys",
+            "config": [
+                "(animation) => {",
+                "}"
+            ]
+        },
+        "asset-pack": "core",
+        "parent": 1,
+        "decorators": []
+    }
+}
