@@ -5,7 +5,9 @@
         "name": "",
         "asset-pack": "core",
         "children": [
-            "b9221ef2-3a45-4a0b-bd35-43cb7e303ddb"
+            "b9221ef2-3a45-4a0b-bd35-43cb7e303ddb",
+            "488a05f4-4420-45ba-9299-5e1242d2dedb",
+            "634b3543-118b-4ae5-b307-e74b7202a72c"
         ],
         "decorators": [],
         "options": {}
@@ -23,27 +25,87 @@
                 "    let request = require('request');",
                 "    ",
                 "    let lps = jibo.lps",
-                "    lps.takePhoto(lps.PhotoRes.SMALL, false, lps.RIGHT, lps.PhotoType.DEBUG, function(error, imageUrl) {",
-                "      request",
-                "        .get(imageUrl)",
-                "        .pipe(request.post('http://72.19.101.34:5000')",
-                "        .on('response', function(response){",
-                "          console.log('Status code: ' + response.statusCode);",
-                "        })",
-                "        .on('data', function(data) {",
-                "          console.log(data.toString());",
-                "          notepad.imageError = data['error'];",
-                "          if(!data.error) {",
-                "            notepad.objectName = data.name;",
-                "            notepad.confidence = data.confidence;",
-                "          }",
+                "    try{",
+                "      lps.takePhoto(lps.PhotoRes.LARGE, false, lps.RIGHT, lps.PhotoType.FULL, function(error, imageUrl) {",
+                "        request",
+                "          .get(imageUrl, function(err){",
+                "            // console.log('Get: ' + err);",
+                "          })",
+                "          .pipe(request.post('http://72.19.101.34:5000', function(err, response, body){",
+                "            // console.log('Post: ' + err);",
+                "            // console.log(response);",
+                "            // console.log(body);",
+                "          })",
+                "          .on('response', function(response){",
+                "            console.log('Status code: ' + response.statusCode);",
+                "          })",
+                "          .on('data', function(data) {",
+                "            console.log(data.toString());",
+                "            notepad.imageError = data['error'];",
+                "            if(!data.error) {",
+                "              notepad.objectName = data.name;",
+                "              notepad.confidence = data.confidence;",
+                "            }",
+                "            notepad.objectName = 'cat';  ",
                 "            succeed();",
-                "        }))",
+                "          }))",
+                "      });",
+                "  } catch (e) {",
+                "    console.log('Exeption: ' + e);",
+                "  }",
+                "}"
+            ]
+        },
+        "asset-pack": "core",
+        "parent": 1,
+        "skipped": false
+    },
+    "488a05f4-4420-45ba-9299-5e1242d2dedb": {
+        "id": "488a05f4-4420-45ba-9299-5e1242d2dedb",
+        "class": "TextToSpeechJs",
+        "name": "",
+        "options": {
+            "getWords": [
+                "(callback) => {",
+                "    callback('It\\'s a ' + notepad.objectName);",
+                "}"
+            ],
+            "onWord": [
+                "(word) => {",
+                "}"
+            ]
+        },
+        "asset-pack": "core",
+        "parent": 1,
+        "skipped": false
+    },
+    "634b3543-118b-4ae5-b307-e74b7202a72c": {
+        "id": "634b3543-118b-4ae5-b307-e74b7202a72c",
+        "class": "Listen",
+        "name": "",
+        "options": {
+            "getOptions": [
+                "() => {",
+                "    let options = {",
+                "        heyJibo: false,",
+                "        detectEnd: false,",
+                "        incremental: false,",
+                "        authenticateSpeaker: ''",
+                "    }",
+                "    return options;",
+                "}"
+            ],
+            "rule": "yes-no.rule",
+            "onResult": [
+                "(listener) => {",
+                "    listener.on('cloud', function(asrResult, speakerIds) {",
+                "",
                 "    });",
                 "}"
             ]
         },
         "asset-pack": "core",
-        "parent": 1
+        "parent": 1,
+        "skipped": true
     }
 }
