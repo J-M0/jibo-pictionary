@@ -74,8 +74,9 @@
         "options": {
             "getWords": [
                 "(callback) => {",
+                "    var sentence = '';",
                 "    if (notepad.guesses.length == 0) {",
-                "      callback(\"is it a star?\");",
+                "      sentence = \"is it a star?\";",
                 "    }",
                 "    else {",
                 "      var guess = notepad.guesses.shift();",
@@ -83,17 +84,20 @@
                 "      ",
                 "      if(confidence >= 0.85)",
                 "      {",
-                "        callback(\"I'm pretty sure that's a \" + guess.name);",
+                "        sentence = \"I'm pretty sure that's a \" + guess.name;",
                 "      }",
                 "      else if(confidence >= 0.7)",
                 "      {",
-                "        callback(\"I think it might be a \" + guess.name);",
+                "        sentence = \"I think it might be a \" + guess.name;",
                 "      }",
                 "      else",
                 "      {",
-                "        callback(\"Is that a \" + guess.name + \" ?\");",
+                "        sentence = \"Is that a \" + guess.name + \" ?\";",
                 "      }",
                 "    }",
+                "    ",
+                "    console.log(sentence);",
+                "    callback(sentence);",
                 "}"
             ],
             "onWord": [
@@ -238,7 +242,7 @@
             "rule": "guess.rule",
             "onResult": [
                 "(listener) => {",
-                "  console.log('Blah');",
+                "  // console.log('Blah');",
                 "    listener.on('cloud', function(asrResult, speakerIds) {",
                 "      console.log('Heard something');",
                 "      if(asrResult.NLParse.what == 'guess'){",
@@ -345,12 +349,16 @@
         "options": {
             "getWords": [
                 "(callback) => {",
+                "  var sentence = '';",
                 "  if (!notepad.correct) {",
-                "    callback(\"Well maybe you should learn to draw better. Let's play again\");",
+                "    sentence = \"Well maybe you should learn to draw better. Let's play again\";",
                 "  }",
                 "  else {",
-                "    callback(\"Let's play again\");",
+                "    sentence = \"Let's play again\";",
                 "  }",
+                "  ",
+                "  console.log(sentence);",
+                "  callback(sentence);",
                 "}"
             ],
             "onWord": [
