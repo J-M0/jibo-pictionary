@@ -13,10 +13,15 @@ def hello_world():
 
 @app.route('/', methods=['POST'])
 def post_img():
-    data = request.files['media']
-    data.save('img.jpg')
+    # data = request.files['media']
+    # data.save('img.jpg')
+
+    f = open('img.jpg', 'wb')
+    f.write(request.get_data())
+    f.close()
 
     img = cv2.imread('img.jpg')
+    app.logger.warning(img.shape)
     res = cv2.resize(img, None, fx=0.2, fy=0.2, interpolation=cv2.INTER_CUBIC)
     gray = cv2.cvtColor(res, cv2.COLOR_BGR2GRAY)
     (thresh, im_bw) = cv2.threshold(gray, 128, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
