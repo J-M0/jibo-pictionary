@@ -42,11 +42,18 @@
                 "          console.log('Status code: ' + response.statusCode);",
                 "        })",
                 "        .on('data', function(data) {",
-                "          data  = JSON.parse(data);",
-                "          console.log('got data: ' + data.toString());",
+                "          data  = JSON.parse(data.toString());",
+                "          console.log('got data: ');",
+                "          console.log(data);",
                 "          notepad.imageError = data['error'];",
                 "          if(!data.error) {",
                 "            notepad.guesses = data.guesses;",
+                "          }",
+                "          else {",
+                "            notepad.guesses = [",
+                "              {'name': 'clock', 'confidence': 0.3},",
+                "              {'name': 'hot dog', 'confidence': 0.3}",
+                "            ];",
                 "          }",
                 "          succeed();",
                 "        }))",
@@ -68,7 +75,7 @@
             "getWords": [
                 "(callback) => {",
                 "    if (notepad.guesses.length == 0) {",
-                "      callback(\"Well you're a bad artist\");",
+                "      callback(\"is it a star?\");",
                 "    }",
                 "    else {",
                 "      var guess = notepad.guesses.shift();",
@@ -285,6 +292,7 @@
         "options": {
             "init": [
                 "() => {",
+                "  notepad.guesses = []",
                 "}"
             ],
             "conditional": [
@@ -389,6 +397,7 @@
         "options": {
             "init": [
                 "() => {",
+                "  ",
                 "}"
             ],
             "conditional": [
