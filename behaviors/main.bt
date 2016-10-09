@@ -327,7 +327,7 @@
             "getWords": [
                 "(callback) => {",
                 "  if (!notepad.correct) {",
-                "    callback('Well maybe you should learn to draw better');",
+                "    callback(\"Well maybe you should learn to draw better. Let's play again\");",
                 "  }",
                 "  else {",
                 "    callback(\"Let's play again\");",
