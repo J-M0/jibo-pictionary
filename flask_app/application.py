@@ -15,7 +15,7 @@ def hello_world():
 def post_img():
     data = request.files['media']
     data.save('img.jpg')
-
+    '''
     img = cv2.imread('img.jpg')
     res = cv2.resize(img, None, fx=0.2, fy=0.2, interpolation=cv2.INTER_CUBIC)
     gray = cv2.cvtColor(res, cv2.COLOR_BGR2GRAY)
@@ -29,15 +29,16 @@ def post_img():
     approx = cv2.approxPolyDP(cnt,epsilon,True)
 
     result = {}
-
+    '''
     try:
-        x1 = approx[0][0][0]
+       ''' x1 = approx[0][0][0]
         y1 = approx[0][0][1]
         x2 = approx[2][0][0]
         y2 = approx[2][0][1]
 
         roi = t[min(y1,y2):max(y1,y2), min(x1,x2):max(x1,x2)]
-
+        '''
+        roi = prprocess.process('img.jpg')
         cv2.imwrite('cropped.jpg', roi)
 
         image_data = tf.gfile.FastGFile('cropped.jpg', 'rb').read()
@@ -65,7 +66,7 @@ def post_img():
 
     except Exception:
         result = {"error" : True}
-
+            
     return json.dumps(result) + "\n"
 
 if __name__ == '__main__':
